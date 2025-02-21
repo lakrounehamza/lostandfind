@@ -28,12 +28,13 @@ Route::get('/annonce/{id}', [AnnonceController::class, 'show'])->name('annonce.s
 Route::get('delete/annonce/{id}', [AnnonceController::class, 'destroy'])->name('annonce.destroy');
 Route::get('/create/annonce', [AnnonceController::class, 'create'])->name('annonce.create');
 Route::get('/edit/annonce/{id}', [AnnonceController::class, 'edit'])->name('annonce.edit');
-Route::post('/edit/annonce', [AnnonceController::class, 'update'])->name('annonce.update');
+Route::post('/update/annonce/{id}', [AnnonceController::class, 'update'])->name('annonce.update');
 Route::post('/create/annonce', [AnnonceController::class, 'store']);
 Route::get('/commentaire/{id}', [CommentaireController::class, 'destroy'])->name('commentaire.delete');
 Route::get('/create/commentaire', [CommentaireController::class, 'store'])->name('commentaire.create');
 Route::get('/commentaire/edit/{id}', [CommentaireController::class, 'edit'])->name('commentaire.edit');
 Route::post('/commentaire/update/{id}', [CommentaireController::class, 'update'])->name('commentaire.update');
+Route::get('/statistic', [AnnonceController::class, 'statistic'])->name('statistic');
 // Route::delete('/annonce', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 require __DIR__.'/auth.php';

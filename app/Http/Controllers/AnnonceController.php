@@ -14,15 +14,16 @@ class AnnonceController extends Controller
     public function index()
     {
         $annonces  = Annonce::paginate(8);
-        return view('home',['annonces'=>$annonces]);
+        return view('home', ['annonces' => $annonces]);
         // return 'index';
     }
-    
-    public function dashboard(){
+
+    public function dashboard()
+    {
         // .blade
-        
+
         $annonces  = Annonce::paginate(8);
-        return view('dashboard',['annonces'=>$annonces]);
+        return view('dashboard', ['annonces' => $annonces]);
     }
 
     /**
@@ -52,21 +53,24 @@ class AnnonceController extends Controller
         // dd(Auth::user()->id);
         // Création de l'annonce avec la catégorie incluse
         Annonce::create($validatedData);
-    
+
         return redirect('/home');
     }
-    
 
+    public function  statistic()
+    {
+        return view('statistic');
+    }
 
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        $annonce = Annonce::with('commentaires')->findOrFail($id); 
+        $annonce = Annonce::with('commentaires')->findOrFail($id);
         return view('detaile', compact('annonce'));
     }
-    
+
 
     /**
      * Show the form for editing the specified resource.
@@ -74,7 +78,7 @@ class AnnonceController extends Controller
     public function edit(string $id)
     {
         $annonce  = Annonce::find($id);
-        return view('editeAnnonce',['annonce'=>$annonce]);
+        return view('editeAnnonce', ['annonce' => $annonce]);
     }
 
     /**
@@ -82,7 +86,20 @@ class AnnonceController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // return 'id';
+        // dd($request);
+        $annonce = Annonce::find($id);
+        $validatedData = $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'photo' => 'nullable|string',
+            'date_found' => 'nullable|date',
+            'lieu' => 'nullable|string|max:255',
+            'type' => 'required|string|max:50',
+            'categorie' => 'required|string|max:255',
+            'id_auteur' => 'string|max:255',
+        ]);
+        $annonce->update([$validatedData]);
+        return redirect('/dashboard');
     }
 
 
@@ -91,11 +108,11 @@ class AnnonceController extends Controller
      */
     public function destroy(string $id)
     {
-        $annonce  =Annonce::find($id);
-        
+        $annonce  = Annonce::find($id);
+
         if ($annonce) {
             $annonce->delete();
         }
-        return redirect('/home');
+        return redirect('/article.index');
     }
 }
