@@ -22,7 +22,7 @@ class AnnonceController extends Controller
     {
         // .blade
 
-        $annonces  = Annonce::paginate(8);
+        $annonces  = Annonce::all();
         return view('dashboard', ['annonces' => $annonces]);
     }
 
@@ -102,7 +102,19 @@ class AnnonceController extends Controller
         return redirect('/dashboard');
     }
 
-
+    public function  search(Request $request)
+    {
+        $se =  $request->search;
+        $annonces = Annonce::where(function ($query) use ($se) {
+            $query->where('titre', 'like', "%$se%")
+                ->orWhere('description', 'like', "%$se%")
+                ->orWhere('categorie', 'like', "%$se%");
+        })->orWhereHas('users', function ($query) use ($se) {
+            $query->where('name', 'like', "%$se%")
+                ->orWhere('prenom', 'like', "%$se%");
+        })->get();
+        return view('dashboard', ['annonces' => $annonces]);
+    }
     /**
      * Remove the specified resource from storage.
      */

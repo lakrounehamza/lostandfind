@@ -35,6 +35,7 @@ Route::get('/create/commentaire', [CommentaireController::class, 'store'])->name
 Route::get('/commentaire/edit/{id}', [CommentaireController::class, 'edit'])->name('commentaire.edit');
 Route::post('/commentaire/update/{id}', [CommentaireController::class, 'update'])->name('commentaire.update');
 Route::get('/statistic', [AnnonceController::class, 'statistic'])->name('statistic');
+Route::post('/search', [AnnonceController::class, 'search'])->name('search');
 // Route::delete('/annonce', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 require __DIR__.'/auth.php';
