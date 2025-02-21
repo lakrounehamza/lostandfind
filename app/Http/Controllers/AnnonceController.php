@@ -71,7 +71,7 @@ class AnnonceController extends Controller
         $annonce = Annonce::with('commentaires')->findOrFail($id);
         return view('detaile', compact('annonce'));
     }
-    public function filter(Request $request) {
+    public function filtre(Request $request) {
         $annonces = Annonce::where('categorie', $request->categorie)->get();
         return view('dashboard', ['annonces' => $annonces]);    
     }
